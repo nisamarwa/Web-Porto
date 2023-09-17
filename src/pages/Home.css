@@ -1,0 +1,12 @@
+.App {
+  text-align: center;
+  top: 30%;
+  width: 100%;
+}
+
+.SummaryApp {
+  max-width: 50%;
+  text-align: center;
+  margin: 0 auto;
+  align-items: center;
+}
