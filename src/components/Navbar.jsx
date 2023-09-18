@@ -8,7 +8,7 @@ import {
   Transition,
   Text,
   rem,
-  Image
+  useMantineTheme
 } from '@mantine/core';
 import useStyles from './Navbar.styles'
 import { useDisclosure } from '@mantine/hooks';
@@ -36,7 +36,7 @@ export function HeaderResponsive() {
   const [opened, { toggle, close }] = useDisclosure(false);
   const [active, setActive] = useState(links[0].link); 
   const { classes, cx } = useStyles();
-
+  const theme = useMantineTheme();
   
 
   const items = links.map((link) => (
@@ -67,7 +67,7 @@ document.head.appendChild(fontLink);
   return (
     <Header height={HEADER_HEIGHT} className={classes.root}>
       <Container className={classes.header}>
-        <Link to="/" style={{ textDecoration: 'none', color:"black" }}>
+        <Link to="/" style={{ textDecoration: 'none', color: theme.colorScheme === 'dark' ? theme.white : theme.colors.dark[8] }}>
           <Text size={30} fw={100} style={{ fontFamily: 'Lexend Deca, sans-serif'}} >MARWA</Text>
         </Link>
         {/* <Image maw={150} src={logo}/> */}

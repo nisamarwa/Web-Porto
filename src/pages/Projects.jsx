@@ -4,7 +4,7 @@ import { Paper, Text, Title, Button, rem, useMantineTheme, Space, ActionIcon } f
 import { useMediaQuery } from '@mantine/hooks';
 import bg from '../images/BOG.jpg';
 import useStyles from './Projects.styles'
-import { IconBrandSteam } from '@tabler/icons-react';
+import { IconBrandSteam, IconBrandGithub, IconDownload } from '@tabler/icons-react';
 import { motion } from 'framer-motion';
 
 function ProjectCard({ image, title, description, language }) {
@@ -24,6 +24,7 @@ function ProjectCard({ image, title, description, language }) {
     window.location.href = 'https://store.steampowered.com/app/2286560/Battle_of_Guardians/';
   };
   const isContributed = title.includes("BATTLE OF GUARDIANS");
+  const isMiniGame = title.includes("MINI GAME");
 
   return (
     <Paper shadow="md" p="xl" radius="md" style={cardStyle}>
@@ -44,12 +45,28 @@ function ProjectCard({ image, title, description, language }) {
         <Space h={20}/>
         <Text style={{fontFamily:'monospace', fontSize:mobile?9.5:15}} color={theme.white}>{language}</Text>
         <Space h={50}/>
-        {/* <Button style={{fontFamily:'monospace'}} variant="white" color="dark" onClick={handleButtonClick}>
-          Read more
-        </Button> */}
-        <ActionIcon size={mobile ? "md" : 'lg'} radius="xl" variant="outline" onClick={handleButtonClick}>
-          <IconBrandSteam size="1rem" />
-        </ActionIcon>
+        {isContributed && (
+          <ActionIcon size={mobile ? "md" : 'lg'} radius="xl" variant="outline" onClick={handleButtonClick}>
+            <IconBrandSteam size="1rem" />
+          </ActionIcon>
+        )}
+        {isMiniGame && (
+          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+          <ActionIcon size={mobile ? "md" : 'lg'} radius="xl" variant="outline" onClick={handleButtonClick}>
+            <IconBrandGithub size="1rem" />
+          </ActionIcon>
+          <Space w={30} />
+          <ActionIcon
+            size={mobile ? "md" : 'lg'}
+            radius="xl"
+            variant="outline"
+            onClick={handleButtonClick} // Buat fungsi handleDownloadButtonClick sesuai kebutuhan Anda
+          >
+            <IconDownload size="1rem" />
+          </ActionIcon>
+          </div>
+        )}
+
       </div>
     </Paper>
   );
@@ -63,9 +80,9 @@ const projectData = [
     image: bg,
   },
   {
-    title: 'Project 2',
-    description: 'Description for Project 2',
-    language:'#ReactJS, #CSharp #PHP, #Firestore, #GoogleDataStudio, #ExpressJS, #SQL #BigQuery',
+    title: 'MINI GAME',
+    description: 'Created Classic Tetris and Classic Snake',
+    language: '#CSharp',
     image: bg,
   },
   {
