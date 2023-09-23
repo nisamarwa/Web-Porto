@@ -3,11 +3,19 @@ import { Carousel } from '@mantine/carousel';
 import { Paper, Text, Title, Button, rem, useMantineTheme, Space, ActionIcon } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import bg from '../images/BOG.jpg';
+import miniGameBg from '../images/MiniGameBg.jpg'
 import useStyles from './Projects.styles'
 import { IconBrandSteam, IconBrandGithub, IconDownload } from '@tabler/icons-react';
 import { motion } from 'framer-motion';
+import MiniCarousel from '../components/MiniCarousel';
 
 function ProjectCard({ image, title, description, language }) {
+  const theme = useMantineTheme();
+  const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
+  const isContributed = title.includes("BATTLE OF GUARDIANS");
+  const isMiniGame = title.includes("MINI GAME");
+  const { classes } = useStyles();
+
   const cardStyle = {
     backgroundImage: `url(${image})`,
     display: 'flex',
@@ -18,17 +26,22 @@ function ProjectCard({ image, title, description, language }) {
     backgroundSize:'100% 100%',
     backgroundColor:'rgba (0, 0, 0, 0.3)'
   };
-  const theme = useMantineTheme();
-  const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
-  const handleButtonClick = () => {
+  
+  const handleButtonSteam = () => {
     window.location.href = 'https://store.steampowered.com/app/2286560/Battle_of_Guardians/';
   };
-  const isContributed = title.includes("BATTLE OF GUARDIANS");
-  const isMiniGame = title.includes("MINI GAME");
+  
+  const handleButtonGithub = () => {
+    window.location.href = 'https://github.com/nisamarwa/Web-Porto/tree/master';
+  };
+
+  const handleButtonDownload = () => {
+    window.location.href = 'https://drive.google.com/file/d/1ONU0pnBRykc1OPJY-JTAl9Sx2vWip7Xt/view?usp=drive_link';
+  };
 
   return (
     <Paper shadow="md" p="xl" radius="md" style={cardStyle}>
-      <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+      <div className={classes.title}>
         <Text style={{fontFamily:'monospace'}} color={theme.white} size="xs">PROJECTS</Text>
         {isContributed && (
           <>
@@ -38,21 +51,21 @@ function ProjectCard({ image, title, description, language }) {
           </Text>
           </>
         )}
-        <Title style={{fontFamily:'monospace', fontSize:mobile? 20 : 50}} color={theme.white}>{title}</Title>
+        <Title style={{fontFamily:'monospace', fontSize:mobile ? 20 : 50}} color={theme.white}>{title}</Title>
       </div>
       <div style={{width:'70%'}}>
-        <Text style={{fontFamily:"'Roboto', monospace", fontSize:mobile?9.5:14}} color={theme.white}>{description}</Text>
+        <Text style={{fontFamily:"'Roboto', monospace", fontSize:mobile ? 9.5 : 14}} color={theme.white}>{description}</Text>
         <Space h={20}/>
-        <Text style={{fontFamily:'monospace', fontSize:mobile?9.5:15}} color={theme.white}>{language}</Text>
+        <Text style={{fontFamily:'monospace', fontSize:mobile ? 9.5 : 15}} color={theme.white}>{language}</Text>
         <Space h={50}/>
         {isContributed && (
-          <ActionIcon size={mobile ? "md" : 'lg'} radius="xl" variant="outline" onClick={handleButtonClick}>
+          <ActionIcon size={mobile ? "md" : 'lg'} radius="xl" variant="outline" onClick={handleButtonSteam}>
             <IconBrandSteam size="1rem" />
           </ActionIcon>
         )}
         {isMiniGame && (
-          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-          <ActionIcon size={mobile ? "md" : 'lg'} radius="xl" variant="outline" onClick={handleButtonClick}>
+          <div className={classes.buttonMiniGame}>
+          <ActionIcon size={mobile ? "md" : 'lg'} radius="xl" variant="outline" onClick={handleButtonGithub}>
             <IconBrandGithub size="1rem" />
           </ActionIcon>
           <Space w={30} />
@@ -60,7 +73,7 @@ function ProjectCard({ image, title, description, language }) {
             size={mobile ? "md" : 'lg'}
             radius="xl"
             variant="outline"
-            onClick={handleButtonClick} // Buat fungsi handleDownloadButtonClick sesuai kebutuhan Anda
+            onClick={handleButtonDownload} 
           >
             <IconDownload size="1rem" />
           </ActionIcon>
@@ -83,7 +96,7 @@ const projectData = [
     title: 'MINI GAME',
     description: 'Created Classic Tetris and Classic Snake',
     language: '#CSharp',
-    image: bg,
+    image: miniGameBg,
   },
   {
     title: 'Project 3',
@@ -99,6 +112,12 @@ export default function ProjectsPage() {
   const { classes } = useStyles();
 
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
+
+  const videoData = [
+    {src:require('../videos/Tetris.mp4')},
+    {src:require('../videos/Snake.mp4')}
+  ];
+
   const slides = projectData.map((project, index) => (
     <Carousel.Slide key={project.title}>
       <motion.div
@@ -106,10 +125,27 @@ export default function ProjectsPage() {
       animate={{ y: 0, height:'100%' }} 
       transition={{ duration: 1, delay: index * 0.2 }} 
       >
-        <ProjectCard
-          {...project}
-          language={project.language}
-        />
+        <div style={{height:'100%'}}>
+          <ProjectCard
+            {...project}
+            language={project.language}
+          />
+        </div>
+
+        {project.title.includes("MINI GAME") &&(
+          <div style={{
+            right: mobile ? rem(50) : rem(400),
+            top: mobile ? rem(200) : rem(150),
+            width: mobile ? '70%' :'40%', 
+            height: mobile ? '70%': '40%', 
+            position:'absolute'
+          }} 
+          >
+            <MiniCarousel
+              videoData={videoData}
+            />
+          </div>
+        )}
       </motion.div>
     </Carousel.Slide>
   ));
@@ -129,7 +165,7 @@ export default function ProjectsPage() {
         slidesToScroll={slidesToScroll}
         align={'center'}
         loop
-        dragFree//={!isOverlayActive}
+        dragFree
         withControls={false}
         withIndicators={true}
         style={{ width: '100%', margin: 0 , padding: mobile ? `${paddingTop} ${paddingSide} ${paddingBot} ${paddingSide}`: rem(80), }}
@@ -137,14 +173,13 @@ export default function ProjectsPage() {
           height: rem(700),
           width: '100%',
         }}
-        indicator={{
-          bottom: mobile ? rem(-100):rem(100)
-        }}
+        // indicator={{
+        //   bottom: mobile ? rem(-100):rem(100)
+        // }}
         controlsOffset={10}
         height={rem(700)}
         classNames={{
           indicator: classes.carouselIndicator,
-          //  indicators: classes.indi
         }}
         breakpoints={[
           { maxWidth: 'md', slideSize: '50%' },
@@ -156,3 +191,6 @@ export default function ProjectsPage() {
     </div>
   );
 }
+
+
+

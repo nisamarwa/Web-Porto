@@ -14,7 +14,6 @@ import useStyles from './Navbar.styles'
 import { useDisclosure } from '@mantine/hooks';
 import ColorSwitchToggle from './ColorSchemeToggle';
 import { Link } from 'react-router-dom'
-import logo from '../images/LogoName.png'
 
 const HEADER_HEIGHT = rem(60);
 const links = [

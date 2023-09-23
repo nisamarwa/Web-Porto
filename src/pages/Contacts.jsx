@@ -20,7 +20,6 @@ import {
   import { useForm } from '@mantine/form';
   import { motion, useAnimation } from 'framer-motion';
   
-  
   const social = [IconBrandTwitter, IconBrandYoutube, IconBrandInstagram];
   
   export function ContactUs() {
@@ -31,7 +30,7 @@ import {
 
     const leftColumnControls = useAnimation();
     const rightColumnControls = useAnimation();
-  
+    
     const icons = social.map((Icon, index) => (
       <ActionIcon key={index} size={28} className={classes.social} variant="transparent">
         <Icon size="1.4rem" stroke={1.5} />
@@ -55,7 +54,7 @@ import {
     async function SendEmail(event){
       event.preventDefault();
       console.log("SENT", event.target)
-      emailjs.sendForm('service_b6qfktk', 'template_rbitrh6', event.target, '9XKSNGLphYebEM2io')
+      emailjs.sendForm(process.env.REACT_APP_SERVICE_ID, process.env.REACT_APP_SERVICE_TEMPLATE_ID, event.target, process.env.REACT_APP_PUBLIC_KEY)
       .then((result)=>{
         console.log("RES", result)
         if(result.text==='OK')
