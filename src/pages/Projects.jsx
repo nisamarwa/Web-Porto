@@ -28,15 +28,15 @@ function ProjectCard({ image, title, description, language }) {
   };
   
   const handleButtonSteam = () => {
-    window.location.href = 'https://store.steampowered.com/app/2286560/Battle_of_Guardians/';
+    window.location.href = process.env.REACT_APP_STEAM_LINK;
   };
   
   const handleButtonGithub = () => {
-    window.location.href = 'https://github.com/nisamarwa/Web-Porto/tree/master';
+    window.location.href = process.env.REACT_APP_GITHUB_LINK;
   };
 
   const handleButtonDownload = () => {
-    window.location.href = 'https://drive.google.com/file/d/1ONU0pnBRykc1OPJY-JTAl9Sx2vWip7Xt/view?usp=drive_link';
+    window.location.href = process.env.REACT_APP_DOWNLOAD_LINK;
   };
 
   return (
