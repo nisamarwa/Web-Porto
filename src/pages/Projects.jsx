@@ -34,9 +34,15 @@ function ProjectCard({ image, title, description, language }) {
   };
   
   const handleButtonGithub = () => {
-    if(isMiniGame) window.location.href = process.env.REACT_APP_GITHUB_MINIGAME_LINK;
-    else window.location.href = process.env.REACT_APP_GITHUB_STUDIOGOODS;
-  };
+    if(isMiniGame) {
+      console.log("IS MINI GAME");
+      window.location.href = process.env.REACT_APP_GITHUB_MINIGAME_LINK;
+    }
+      else {
+        console.log('STUDIO GOODS', process.env.REACT_APP_GITHUB_STUDIGOODS)
+        window.location.href = process.env.REACT_APP_GITHUB_STUDIGOODS;
+      }
+    };
 
   const handleButtonDownload = () => {
     window.location.href = process.env.REACT_APP_DOWNLOAD_LINK;
