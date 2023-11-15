@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Carousel } from '@mantine/carousel';
-import { Paper, Text, Title, Button, rem, useMantineTheme, Space, ActionIcon } from '@mantine/core';
+import { Paper, Text, Title, Button, rem, useMantineTheme, Space, ActionIcon, Overlay } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import bg from '../images/BOG.jpg';
 import miniGameBg from '../images/MiniGameBg.jpg'
+import studiogoods from '../images/StudioGoods-Dark.jpg'
 import useStyles from './Projects.styles'
-import { IconBrandSteam, IconBrandGithub, IconDownload } from '@tabler/icons-react';
+import { IconBrandSteam, IconBrandGithub, IconDownload, IconLink } from '@tabler/icons-react';
 import { motion } from 'framer-motion';
 import MiniCarousel from '../components/MiniCarousel';
 
@@ -14,6 +15,7 @@ function ProjectCard({ image, title, description, language }) {
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
   const isContributed = title.includes("BATTLE OF GUARDIANS");
   const isMiniGame = title.includes("MINI GAME");
+  const isStudioGoods = title.includes("E-Commerce");
   const { classes } = useStyles();
 
   const cardStyle = {
@@ -32,13 +34,18 @@ function ProjectCard({ image, title, description, language }) {
   };
   
   const handleButtonGithub = () => {
-    window.location.href = process.env.REACT_APP_GITHUB_LINK;
+    if(isMiniGame) window.location.href = process.env.REACT_APP_GITHUB_MINIGAME_LINK;
+    else window.location.href = process.env.REACT_APP_GITHUB_STUDIOGOODS;
   };
 
   const handleButtonDownload = () => {
     window.location.href = process.env.REACT_APP_DOWNLOAD_LINK;
   };
 
+  const handleButtonLink = () => {
+    window.location.href = process.env.REACT_APP_STUDIOGOODS_LINK;
+  }
+ 
   return (
     <Paper shadow="md" p="xl" radius="md" style={cardStyle}>
       <div className={classes.title}>
@@ -80,6 +87,24 @@ function ProjectCard({ image, title, description, language }) {
           </div>
         )}
 
+        {isStudioGoods && (
+          <div className={classes.buttonMiniGame}>
+          <ActionIcon size={mobile ? "md" : 'lg'} style={{color: theme.white}} radius="xl" variant="outline" onClick={handleButtonGithub}>
+            <IconBrandGithub stroke={theme.white} fill={theme.white} size="1rem" />
+          </ActionIcon>
+          <Space w={30} />
+          <ActionIcon
+            size={mobile ? "md" : 'lg'}
+            radius="xl"
+            variant="outline"
+            onClick={handleButtonLink} 
+            style={{color:theme.white}}
+          >
+            <IconLink stroke={3} size="1rem" />
+          </ActionIcon>
+          </div>
+        )}
+
       </div>
     </Paper>
   );
@@ -99,10 +124,10 @@ const projectData = [
     image: miniGameBg,
   },
   {
-    title: 'Project 3',
-    description: 'Description for Project 2',
-    language:'#ReactJS, #CSharp #PHP, #Firestore, #GoogleDataStudio, #ExpressJS, #SQL #BigQuery',
-    image: bg,
+    title: 'E-Commerce Website',
+    description: "Created a straightforward e-commerce website featuring Firebase authentication, Cloud Firestore for data storage, and Stripe for seamless and secure online payments.",
+    language:'#NextJS, #CloudFirestore, #Mantine #Stripe',
+    image: studiogoods,
   },
 ];
   
@@ -146,6 +171,10 @@ export default function ProjectsPage() {
             />
           </div>
         )}
+
+        {/* {project.title.includes("E-Commerce") &&(
+          // <Overlay opacity='0.3'/>
+        )} */}
       </motion.div>
     </Carousel.Slide>
   ));
